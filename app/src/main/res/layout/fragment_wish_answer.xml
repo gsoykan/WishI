@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".WishAnswerFragment">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
 
     <!-- TODO: Update blank fragment layout -->
    <LinearLayout
        android:id="@+id/wish_answer_linear_layout"
        android:layout_width="match_parent"
-       android:layout_height="match_parent"
+       android:layout_height="wrap_content"
        android:orientation="vertical">
 
        <TextView
@@ -41,14 +48,16 @@
 
     <Button
         android:id="@+id/wish_answer_submit_button"
-        android:text="@string/answer_button_text"
-        android:textSize="20sp"
+        android:layout_below="@id/wish_answer_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:layout_margin="32dp"
         android:backgroundTint="@color/mainRed"
+        android:text="@string/answer_button_text"
         android:textColor="@color/textWhite"
-        android:layout_alignParentBottom="true"
-        />
+        android:textSize="20sp" />
 
-</RelativeLayout>
+
+    </RelativeLayout>
+</ScrollView>

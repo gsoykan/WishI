@@ -31,7 +31,7 @@ public class WishAnswerFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_wish_answer, container, false);
         TextView textView = rootView.findViewById(R.id.wish_answer_question_text_view);
-        textView.setText("This is going to be a question, basically somebofy is looking for help!");
+        textView.setText("This is going to be a question, basically somebody is looking for help!");
         return rootView;
     }
 
