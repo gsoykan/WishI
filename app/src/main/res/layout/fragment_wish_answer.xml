@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WishAnswerFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+   <LinearLayout
+       android:id="@+id/wish_answer_linear_layout"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
+
+       <TextView
+           android:id="@+id/wish_answer_question_text_view"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginHorizontal="16dp"
+           android:layout_marginVertical="6dp"
+           tools:text="I am a question"
+           android:textSize="32sp"
+           android:textStyle="bold"
+           android:textColor="@color/textDark"
+           android:textAlignment="viewStart"/>
+       <EditText
+           android:id="@+id/wish_answer_question_edit_text_view"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginHorizontal="16dp"
+           android:layout_marginVertical="6dp"
+           tools:text="I am an answer!!!"
+           android:textSize="32sp"
+           android:inputType="textMultiLine"
+           android:hint="@string/answer_hint"
+           android:textColor="@color/textDark"
+           android:textAlignment="viewStart"/>
+
+
+   </LinearLayout>
+
+    <Button
+        android:id="@+id/wish_answer_submit_button"
+        android:text="@string/answer_button_text"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:backgroundTint="@color/mainRed"
+        android:textColor="@color/textWhite"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>
