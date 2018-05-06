@@ -12,6 +12,10 @@ import com.bucketsoft.user.wishi.dummy.DummyContent;
 
 public class MainActivity extends AppCompatActivity implements WishItemFragment.OnListFragmentInteractionListener {
 
+
+    // WISH-I Project by Deniz Ademoğlu ,	Batu Başaran ,	Ulaş Nuhoğlu ,	Gürkan Soykan ,	Furkan Özhan
+
+
     BottomNavigationView mBottomNavigationView;
     private int mColumnCount = 1;
     @Override
