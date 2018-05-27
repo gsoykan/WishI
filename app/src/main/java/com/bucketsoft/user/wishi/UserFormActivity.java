@@ -1,5 +1,6 @@
 package com.bucketsoft.user.wishi;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.bucketsoft.user.wishi.dataClasses.wisherUser;
+import com.bucketsoft.user.wishi.dataClasses.WisherUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,7 +30,7 @@ public class UserFormActivity extends AppCompatActivity {
     EditText photoUrlET;
     Button submitButton;
 
-    wisherUser userToBe = new wisherUser();
+    WisherUser userToBe = new WisherUser();
 
 
     @Override
@@ -60,7 +61,14 @@ public class UserFormActivity extends AppCompatActivity {
                    userToBe.setDisplayName(dpName);
                    userToBe.setPhotoURL(photo);
 
+
                    db.collection("users").document(userToBe.getUid()).set(userToBe);
+
+
+                   Intent intent = new Intent(UserFormActivity.this, MainActivity.class);
+                   startActivity(intent);
+
+                   finish();
 
 
                } else {
@@ -81,6 +89,7 @@ public class UserFormActivity extends AppCompatActivity {
 
             userToBe.setEmail(email);
             userToBe.setUid(uid);
+            userToBe.setInfoCheck(true);
         } else {
             // No user is signed in
         }

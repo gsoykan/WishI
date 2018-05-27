@@ -1,22 +1,30 @@
 package com.bucketsoft.user.wishi.dataClasses;
 
-public class wisherUser {
+public class WisherUser {
 
     private Integer age;
     private String bio;
     private String email;
-
+    private Boolean infoCheck;
     private String photoURL;
     private String uid;
     private String displayName;
 
-    public wisherUser() {
+    public WisherUser() {
     }
 
-    public wisherUser(String email, String uid) {
+    public WisherUser(String email, String uid) {
         this.email = email;
         this.uid = uid;
 
+    }
+
+    public Boolean getInfoCheck() {
+        return infoCheck;
+    }
+
+    public void setInfoCheck(Boolean infoCheck) {
+        this.infoCheck = infoCheck;
     }
 
     public Integer getAge() {

@@ -64,8 +64,6 @@ public class LoginSignUpActivity extends BaseActivity implements View.OnClickLis
     }
 
 
-
-
     // [START on_start_check_user]
     @Override
     public void onStart() {
@@ -129,7 +127,7 @@ public class LoginSignUpActivity extends BaseActivity implements View.OnClickLis
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             final FirebaseUser user = mAuth.getCurrentUser();
-                         //   updateUI(user);
+                            //   updateUI(user);
 
 
                             db.collection("users")
@@ -138,28 +136,34 @@ public class LoginSignUpActivity extends BaseActivity implements View.OnClickLis
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
+                                                Boolean notFound = true;
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                                     Log.d(TAG, document.getId() + " => " + document.getData());
 
 
-                                                   if( user.getUid().equals(document.getString("uid"))   ){
-                                                       Log.d(TAG, document.getString("uid") + " => " + user.getUid());
+                                                    if (user.getUid().equals(document.getString("uid"))) {
+                                                        Log.d(TAG, document.getString("uid") + " => " + user.getUid());
+                                                        Intent intent = new Intent(LoginSignUpActivity.this, MainActivity.class);
+                                                        startActivity(intent);
+                                                        notFound = false;
 
-                                                   } else {
-                                                       Intent intent = new Intent(LoginSignUpActivity.this, UserFormActivity.class);
-                                                       startActivity(intent);
 
-                                                   }
+                                                    }
+
 
                                                 }
+
+                                                if (task.isComplete() && notFound) {
+                                                    Intent intent = new Intent(LoginSignUpActivity.this, UserFormActivity.class);
+                                                    startActivity(intent);
+                                                }
+
+
                                             } else {
                                                 Log.d(TAG, "Error getting documents: ", task.getException());
                                             }
                                         }
                                     });
-
-
-
 
 
                         } else {
