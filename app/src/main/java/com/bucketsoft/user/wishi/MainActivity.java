@@ -1,14 +1,17 @@
 package com.bucketsoft.user.wishi;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.bucketsoft.user.wishi.dummy.DummyContent;
+import com.bucketsoft.user.wishi.dataClasses.WishObject;
 
 public class MainActivity extends AppCompatActivity implements WishItemFragment.OnListFragmentInteractionListener {
 
@@ -17,11 +20,16 @@ public class MainActivity extends AppCompatActivity implements WishItemFragment.
 
 
     BottomNavigationView mBottomNavigationView;
+    FloatingActionButton askFloatingActionButton;
     private int mColumnCount = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        askFloatingActionButton = findViewById(R.id.ask_floating_action_button);
+
         mBottomNavigationView = findViewById(R.id.navigation);
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -54,10 +62,19 @@ public class MainActivity extends AppCompatActivity implements WishItemFragment.
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.main_frame_layout, WishItemFragment.newInstance(mColumnCount));
         transaction.commit();
+
+
+        askFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AskWishActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(WishObject item) {
 
     }
 }

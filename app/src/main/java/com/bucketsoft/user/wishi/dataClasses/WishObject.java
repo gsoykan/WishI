@@ -15,6 +15,7 @@ public class WishObject {
     private  String category;
     private Integer wisherAge;
     private Date wishDate;
+    private String wishId;
 
     public WishObject() {
     }
@@ -26,8 +27,17 @@ public class WishObject {
         this.category = category;
         this.wisherAge = wisherAge;
         this.wishDate = wishDate;
+
     }
 
+
+    public String getWishId() {
+        return wishId;
+    }
+
+    public void setWishId(String wishId) {
+        this.wishId = wishId;
+    }
 
     public void addAnswer(AnswerObject answer){
 

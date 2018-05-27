@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bucketsoft.user.wishi.WishItemFragment.OnListFragmentInteractionListener;
+import com.bucketsoft.user.wishi.dataClasses.WishObject;
 import com.bucketsoft.user.wishi.dummy.DummyContent.DummyItem;
 
 import java.util.List;
@@ -18,10 +19,10 @@ import java.util.List;
  */
 public class WishItemRecyclerViewAdapter extends RecyclerView.Adapter<WishItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<WishObject> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public WishItemRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public WishItemRecyclerViewAdapter(List<WishObject> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -36,8 +37,8 @@ public class WishItemRecyclerViewAdapter extends RecyclerView.Adapter<WishItemRe
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mIdView.setText(mValues.get(position).getQuestion());
+        holder.mContentView.setText(mValues.get(position).getWisherDisplayName());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +61,7 @@ public class WishItemRecyclerViewAdapter extends RecyclerView.Adapter<WishItemRe
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public WishObject mItem;
 
         public ViewHolder(View view) {
             super(view);

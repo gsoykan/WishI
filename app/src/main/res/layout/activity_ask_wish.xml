@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AskWishActivity"
+
+
+    >
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/wish_category_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please type your Wish Category!"
+        android:textAlignment="center"/>
+
+
+
+    <TextView
+        android:id="@+id/what_is_your_wish_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please type your Wish!"
+        android:textAlignment="center"/>
+
+    <EditText
+        android:id="@+id/ask_wish_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="type here"
+        android:textSize="30sp"
+        />
+
+
+
+
+    <RadioGroup
+        android:id="@+id/categories_radio_grup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/travel_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="travel"/>
+
+        <RadioButton
+            android:id="@+id/relationship_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="relationship"/>
+
+        <RadioButton
+            android:id="@+id/fitness_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="fitness"/>
+
+        <RadioButton
+            android:id="@+id/sports_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="sports"/>
+
+        <RadioButton
+            android:id="@+id/music_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="music"/>
+        <RadioButton
+            android:id="@+id/general_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="general"/>
+
+    </RadioGroup>
+
+
+
+
+    <Button
+        android:id="@+id/ask_your_wish_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send your wish"/>
+
+</LinearLayout>
+
+
+
+</ScrollView>
