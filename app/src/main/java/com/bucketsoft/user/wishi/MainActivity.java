@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity implements WishItemFragment.
                 Fragment selectedFragment = null;
                 switch (item.getItemId()) {
                     case R.id.action_item_home:
-                        selectedFragment = WishItemFragment.newInstance(mColumnCount);
+                        selectedFragment = WishItemFragment.newInstance(mColumnCount, "ALL");
                         break;
                     case R.id.action_item_feed:
-                        selectedFragment = WishItemFragment.newInstance(mColumnCount);
+                        selectedFragment = WishItemFragment.newInstance(mColumnCount, "CATEGORICAL");
                         break;
                     case R.id.action_item_answer:
                         selectedFragment = WishAnswerFragment.newInstance();
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements WishItemFragment.
             }
         });
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_frame_layout, WishItemFragment.newInstance(mColumnCount));
+        transaction.replace(R.id.main_frame_layout, WishItemFragment.newInstance(mColumnCount, "ALL"));
         transaction.commit();
 
 
@@ -75,6 +75,13 @@ public class MainActivity extends AppCompatActivity implements WishItemFragment.
 
     @Override
     public void onListFragmentInteraction(WishObject item) {
+
+        Intent intent = new Intent(MainActivity.this, WishObjectDetailActivity.class);
+        intent.putExtra("WISH_OBJECT", item);
+        intent.putExtra("ANSWERS_TO_WISH", item.getAnswers());
+        startActivity(intent);
+
+
 
     }
 }

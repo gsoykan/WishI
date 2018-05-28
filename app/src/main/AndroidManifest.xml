@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".BaseActivity" />
         <activity android:name=".UserFormActivity" />
-        <activity android:name=".AskWishActivity"></activity>
+        <activity android:name=".AskWishActivity" />
+        <activity android:name=".WishObjectDetailActivity"></activity>
     </application>
 
 </manifest>

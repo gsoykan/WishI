@@ -59,10 +59,10 @@
             android:text="relationship"/>
 
         <RadioButton
-            android:id="@+id/fitness_radio_button"
+            android:id="@+id/career_radio_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="fitness"/>
+            android:text="career"/>
 
         <RadioButton
             android:id="@+id/sports_radio_button"

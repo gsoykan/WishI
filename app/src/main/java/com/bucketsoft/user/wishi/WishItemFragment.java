@@ -23,7 +23,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A fragment representing a list of Items.
@@ -37,6 +39,7 @@ public class WishItemFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+    private String categorical = "ALL";
     private OnListFragmentInteractionListener mListener;
     private List<WishObject> wishObjectsFromFB = new ArrayList<>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -52,10 +55,11 @@ public class WishItemFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static WishItemFragment newInstance(int columnCount) {
+    public static WishItemFragment newInstance(int columnCount, String categorical) {
         WishItemFragment fragment = new WishItemFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putString("CATEGORY_KEY", categorical);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,9 +70,8 @@ public class WishItemFragment extends Fragment {
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            categorical = getArguments().getString("CATEGORY_KEY");
         }
-
-
 
 
     }
@@ -76,64 +79,78 @@ public class WishItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-      final   View view = inflater.inflate(R.layout.fragment_wishitem_list, container, false);
+        final View view = inflater.inflate(R.layout.fragment_wishitem_list, container, false);
+        final RecyclerView mRecyclerView = view.findViewById(R.id.list);
+
+        if (categorical.equals("ALL")) {
+
+            db.collection("wishObject").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
 
 
-        db.collection("wishObject").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
+                            WishObject trivialWishForAnswer = document.toObject(WishObject.class);
 
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
-
-
-                        ArrayList<AnswerObject> tempAnswers = (ArrayList<AnswerObject>) document.get("answers");
-                        String tempCategory = (String) document.get("category");
-                        String tempQuestion = (String) document.get("question");
-                        Date tempDate = (Date) document.get("wishDate");
-                        String tempId = document.getId();
-                        Integer tempAge =  Integer.valueOf(document.get("wisherAge").toString());
-                        String tempDisplayName = (String) document.get("wisherDisplayName");
-                        String tempWisherUid = (String) document.get("wisherUid");
-
-                        WishObject tempWish = new WishObject(tempWisherUid, tempDisplayName, tempQuestion, tempCategory, tempAge, tempDate);
-                        tempWish.setAnswers(tempAnswers);
-                        tempWish.setWishId(tempId);
-
-
-                        wishObjectsFromFB.add(tempWish);
-
-
-                    }
-
-                    if (task.isComplete()) {
-
-                        if (view instanceof RecyclerView) {
-                            Context context = view.getContext();
-                            RecyclerView recyclerView = (RecyclerView) view;
-                            if (mColumnCount <= 1) {
-                                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                            } else {
-                                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                            ArrayList<AnswerObject> tempAnswers = trivialWishForAnswer.getAnswers();
+                            if (tempAnswers.size() != 0) {
+                                Log.e("ANSWERS", tempAnswers.get(0).getAnswerBody());
                             }
-                            recyclerView.setAdapter(new WishItemRecyclerViewAdapter(wishObjectsFromFB, mListener));
+
+
+                            Log.e("ANSWERS", tempAnswers.toString());
+                            String tempCategory = (String) document.get("category");
+                            String tempQuestion = (String) document.get("question");
+                            Date tempDate = (Date) document.get("wishDate");
+                            String tempId = document.getId();
+                            Integer tempAge = Integer.valueOf(document.get("wisherAge").toString());
+                            String tempDisplayName = (String) document.get("wisherDisplayName");
+                            String tempWisherUid = (String) document.get("wisherUid");
+
+                            WishObject tempWish = new WishObject(tempWisherUid, tempDisplayName, tempQuestion, tempCategory, tempAge, tempDate);
+                            tempWish.setAnswers(tempAnswers);
+                            tempWish.setWishId(tempId);
+
+
+                            wishObjectsFromFB.add(tempWish);
+
+
                         }
 
+                        if (task.isComplete()) {
+
+                            if (mRecyclerView instanceof RecyclerView) {
+                                Context context = view.getContext();
+                                RecyclerView recyclerView = (RecyclerView) mRecyclerView;
+                                if (mColumnCount <= 1) {
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                                } else {
+                                    recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                                }
+                                recyclerView.setAdapter(new WishItemRecyclerViewAdapter(wishObjectsFromFB, mListener));
+                            }
+
+                        }
+
+
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
 
-
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
                 }
+            });
 
-            }
-        });
-
-
+        } else {
 
 
+            
 
+
+
+        }
 
         // Set the adapter
 

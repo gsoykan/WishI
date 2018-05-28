@@ -1,11 +1,13 @@
 package com.bucketsoft.user.wishi.dataClasses;
 
+import android.os.Parcelable;
 import android.widget.SimpleCursorTreeAdapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class WishObject {
+public class WishObject implements Serializable{
 
 
     private  String wisherUid;
@@ -77,6 +79,8 @@ public class WishObject {
     public void setAnswers(ArrayList<AnswerObject> answers) {
         this.answers = answers;
     }
+
+
 
     public String getCategory() {
         return category;
