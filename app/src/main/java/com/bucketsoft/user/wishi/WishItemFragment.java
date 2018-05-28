@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.bucketsoft.user.wishi.dataClasses.AnswerObject;
 import com.bucketsoft.user.wishi.dataClasses.WishObject;
@@ -81,6 +83,7 @@ public class WishItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_wishitem_list, container, false);
         final RecyclerView mRecyclerView = view.findViewById(R.id.list);
+        LinearLayout catLinearLayout = view.findViewById(R.id.category_selector_linear_layout_in_fragment);
 
         if (categorical.equals("ALL")) {
 
@@ -144,10 +147,73 @@ public class WishItemFragment extends Fragment {
             });
 
         } else {
+            mRecyclerView.setVisibility(View.GONE);
+            catLinearLayout.setVisibility(View.VISIBLE);
 
+            Button travelButton = view.findViewById(R.id.category_button_travel);
+            travelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    populateRecyclerView("travel");
+                }
+            });
 
-            
+            Button musicButton = view.findViewById(R.id.category_button_music);
+            musicButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    populateRecyclerView("music");
+                }
+            });
 
+            Button careerButton = view.findViewById(R.id.category_button_career);
+            careerButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    populateRecyclerView("career");
+                }
+            });
+
+            Button sportsButton = view.findViewById(R.id.category_button_sports);
+            sportsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    populateRecyclerView("sports");
+                }
+            });
+
+            Button relationshipButton = view.findViewById(R.id.category_button_relationship);
+            relationshipButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    populateRecyclerView("relationship");
+                }
+            });
+
+            Button generalButton = view.findViewById(R.id.category_button_general);
+            generalButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    populateRecyclerView("general");
+                }
+            });
+                /*
+            int i = view.getId();
+            if (i == R.id.category_button_travel) {
+
+            } else if (i == R.id.category_button_relationship) {
+                populateRecyclerView("relationship");
+            } else if (i == R.id.category_button_career) {
+                populateRecyclerView("career");
+            } else if (i == R.id.category_button_sports) {
+                populateRecyclerView("sports");
+            } else if (i == R.id.category_button_music) {
+                populateRecyclerView("music");
+                Log.e(TAG, "onClick: TIKTITKTIKTTIKTITKT" );
+            } else if (i == R.id.category_button_general) {
+                populateRecyclerView("general");
+            }
+                */
 
 
         }
@@ -173,6 +239,73 @@ public class WishItemFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+
+    public void populateRecyclerView(final String catString) {
+
+        db.collection("wishObject").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    wishObjectsFromFB.clear();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+
+                        WishObject trivialWishForAnswer = document.toObject(WishObject.class);
+
+                        ArrayList<AnswerObject> tempAnswers = trivialWishForAnswer.getAnswers();
+                        String tempCategory = (String) document.get("category");
+                        Log.e("CAT", tempCategory);
+
+
+                        String tempQuestion = (String) document.get("question");
+                        Date tempDate = (Date) document.get("wishDate");
+                        String tempId = document.getId();
+                        Integer tempAge = Integer.valueOf(document.get("wisherAge").toString());
+                        String tempDisplayName = (String) document.get("wisherDisplayName");
+                        String tempWisherUid = (String) document.get("wisherUid");
+
+                        WishObject tempWish = new WishObject(tempWisherUid, tempDisplayName, tempQuestion, tempCategory, tempAge, tempDate);
+                        tempWish.setAnswers(tempAnswers);
+                        tempWish.setWishId(tempId);
+
+
+                        if (tempCategory.equals(catString)){
+                            wishObjectsFromFB.add(tempWish);
+                        }
+
+
+                    }
+
+                    if (task.isComplete()) {
+
+                        getView().findViewById(R.id.category_selector_linear_layout_in_fragment).setVisibility(View.GONE);
+                        getView().findViewById(R.id.list).setVisibility(View.VISIBLE);
+
+
+                        Context context = getView().getContext();
+                        RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.list);
+                        if (mColumnCount <= 1) {
+                            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                        } else {
+                            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                        }
+                        recyclerView.setAdapter(new WishItemRecyclerViewAdapter(wishObjectsFromFB, mListener));
+
+
+                    }
+
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+
+            }
+        });
+
+
     }
 
     /**
