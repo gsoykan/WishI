@@ -43,12 +43,7 @@ public class MainActivity extends AppCompatActivity implements WishItemFragment.
                     case R.id.action_item_feed:
                         selectedFragment = WishItemFragment.newInstance(mColumnCount, "CATEGORICAL");
                         break;
-                    case R.id.action_item_answer:
-                        selectedFragment = WishAnswerFragment.newInstance();
-                        break;
-                    case R.id.action_item_search:
-                        selectedFragment = WishSearchFragment.newInstance();
-                        break;
+                    
                     case R.id.action_item_profile:
                         selectedFragment = WisherProfileFragment.newInstance();
                         break;
